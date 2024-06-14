@@ -1,0 +1,34 @@
+version: '3.9'
+
+#use docker compose up and docker compose down to create database
+services:
+  
+  nats:
+    image: nats
+    command: "-c /conf/nats-server.conf"
+    ports:
+      - "8222:8222"
+      - "4222:4222"
+      - "8443:8443"
+    volumes:
+      - "./local/nats-server.conf:/conf/nats-server.conf"
+  
+  stomp:
+    image: nats-to-stomp:v0.0.1
+    volumes:
+      - "./config:/config"
+    command:
+      - --nats.spring.server=nats:4222
+ #     - --server.allow.origin=http://localhost:3000
+    ports:
+      - "8667:8667"
+    depends_on:
+      nats:
+        condition: service_started  
+        
+  hmi:
+    ports:
+      - "3000:3000"
+    build:
+      context: ./react/nats-to-stomp-hmi
+      dockerfile: ./Dockerfile
