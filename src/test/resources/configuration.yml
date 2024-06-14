@@ -1,0 +1,7 @@
+configs:
+  - source: "test.1"
+    target: "/test/1"
+  - source: "test.2"
+    target: "/test/2"
+  - source: "test.3"
+    target: "test.3"  

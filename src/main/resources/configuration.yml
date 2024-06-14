@@ -1,0 +1,3 @@
+configs:
+  - source: "nats.queue"
+    target: "/stomp/queue"
